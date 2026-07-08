@@ -16,6 +16,7 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import cartItemRoutes from './routes/cartItemRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
 
 
 
@@ -24,12 +25,14 @@ import { user } from './models/user.js'
 import { rating } from './models/rating.js'
 import { product } from './models/product.js'
 import { cartItems } from './models/cartItems.js'
+import { category } from './models/category.js';
 
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartItemRoutes);
+app.use('/api/categories', categoryRoutes);
 
 
 async function main() {

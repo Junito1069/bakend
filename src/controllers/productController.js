@@ -3,9 +3,6 @@ import { product } from "../models/product.js";
 export const getAllProducts = async (req, res) => {
   const allProducts = await product.findAll();
 
-  if (allProducts.length == 0)
-    return res.status(404).json({ msg: 'No se han encontrado productos.' });
-
   return res.status(200).json(allProducts);
 }
 
@@ -38,7 +35,7 @@ export const getProductById = async (req, res) => {
 }
 
 export const createProduct = async (req, res) => {
-  const { name, category, price, salePrice, image, description, featured, stock } = req.body;
+  const { name, categoryId, price, salePrice, image, description, featured, stock } = req.body;
 
   const foundProduct = await product.findOne({
     where: {
@@ -51,7 +48,7 @@ export const createProduct = async (req, res) => {
 
   await product.create({
     name,
-    category,
+    category_id: categoryId,
     price,
     sale_price: salePrice,
     image,
