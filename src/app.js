@@ -31,7 +31,7 @@ import { category } from './models/category.js';
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/carts', cartItemRoutes);
+// app.use('/api/carts', cartItemRoutes);
 app.use('/api/categories', categoryRoutes);
 
 

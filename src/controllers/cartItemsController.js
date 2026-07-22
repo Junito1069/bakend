@@ -8,8 +8,8 @@ export const getCartItemsByUserId = async (req, res) => {
   //viene del token
   const foundUser = await user.findByPk(userId);
 
-  if(!foundUser)
-    return res.status(404).json({msg: 'Usuario no autenticado'});
+  if (!foundUser)
+    return res.status(404).json({ msg: 'Usuario no autenticado' });
 
   const response = await cartItems.findOne({
     where: {
@@ -23,22 +23,22 @@ export const getCartItemsByUserId = async (req, res) => {
 export const createCartOrAddItemToCart = async (req, res) => {
   const { userId } = req.params;
 
-    const foundUser = await user.findByPk(userId);
+  const foundUser = await user.findByPk(userId);
 
-  if(!foundUser)
-    return res.status(404).json({msg: 'Usuario no autenticado'});
+  if (!foundUser)
+    return res.status(404).json({ msg: 'Usuario no autenticado' });
 
   //validamos si el carrito existe
   const foundCartItems = await cartItems.findOne({
     where: {
-      user_id = userId
+      user_id: userId
     }
   });
 
   // si el carrito no existe
-  if(!foundCartItems){
+  if (!foundCartItems) {
     await cartItems.create({
-      
+
     });
   }
 }
