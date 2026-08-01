@@ -14,8 +14,11 @@ export const category = sequelize.define("categories", {
   img: {
     type: DataTypes.STRING(255),
     allowNull: false
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   }
 }, {
-  tableName: "categories",
-  timestamps: false
+  tableName: "categories"
 });
