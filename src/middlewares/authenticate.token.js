@@ -11,7 +11,7 @@ export function authenticateToken(req, res, next) {
   }
 
   // Verifica el token con tu secreto
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(403).json({ message: "Token inválido o expirado." });
     }

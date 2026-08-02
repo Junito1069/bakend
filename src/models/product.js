@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/dbConfig.js';
-import { rating } from './rating.js';
 import { category } from './category.js';
 
 export const product = sequelize.define("product", {
@@ -37,23 +36,28 @@ export const product = sequelize.define("product", {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
   },
-  stock: {
+  current_stock: {
     type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
       min: 0
     }
+  },
+  min_stock: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 0
+    }
+  },
+  is_active: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   }
 }, {
   tableName: 'products',
-  timestamps: false
 })
-
-product.hasMany(rating, { foreignKey: 'product_id' });
-rating.belongsTo(product, { foreignKey: 'product_id' });
-
-product.hasMany(rating, { foreignKey: 'product_id' });
-rating.belongsTo(product, { foreignKey: 'product_id' });
 
 category.hasMany(product, { foreignKey: 'category_id' });
 product.belongsTo(category, { foreignKey: 'category_id' });

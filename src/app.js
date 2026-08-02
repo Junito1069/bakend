@@ -12,26 +12,26 @@ app.use(cors());
 app.use(express.json());
 
 //import routes
-import authRoutes from './routes/authRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import cartItemRoutes from './routes/cartItemRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js';
+import authRoutes from './routes/auth.routes.js';
+import userRoutes from './routes/user.routes.js';
+import productRoutes from './routes/product.routes.js';
+import categoryRoutes from './routes/category.routes.js';
+import cartRoutes from './routes/cart.routes.js';
 
 
 
 //import models
 import { user } from './models/user.js'
-import { rating } from './models/rating.js'
 import { product } from './models/product.js'
-import { cartItems } from './models/cartItems.js'
 import { category } from './models/category.js';
+import { cart } from './models/cart.js';
+import { cartItem } from './models/cart.item.js';
 
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
-// app.use('/api/carts', cartItemRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/api/categories', categoryRoutes);
 
 
