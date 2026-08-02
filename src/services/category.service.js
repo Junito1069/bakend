@@ -97,8 +97,7 @@ class CategoryService {
     const count = await product.count({
       where: {
         category_id: categoryId
-      },
-      attributes: []
+      }
     });
 
     return count;

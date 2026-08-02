@@ -25,3 +25,15 @@ export const getUserCart = async (req, res) => {
     return res.status(statusCode).json({ msg: error.message });
   }
 }
+
+export const updateStatusCart = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const response = await cartService.updateStatusCart(userId);
+    return res.status(200).json(response);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({ msg: error.message });
+  }
+}

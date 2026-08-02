@@ -21,6 +21,17 @@ export const getCategoryById = async (req, res) => {
   }
 }
 
+export const getCountProductsByCategoryId = async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    const response = await _categoryService.getCountProductsByCategoryId(categoryId);
+    return res.status(200).json(response);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({ msg: error.message });
+  }
+}
+
 export const addCategory = async (req, res) => {
   const { name, img } = req.body;
   try {
