@@ -41,14 +41,11 @@ class cartService {
 
   async getCartByUserId(userId) {
     const foundCart = await cart.findOne({
-      where: {
-        user_id: userId
-      },
+      where: { user_id: userId },
       attributes: [
         "id",
         [sequelize.col('user.name'), 'comprador'],
         [sequelize.col("cart.createdAt"), 'fechaDeCreacion'],
-
       ],
       include: [
         {
@@ -70,7 +67,14 @@ class cartService {
       ]
     });
 
-    return { msg: "Carrito obtenido exitosamente.", cart: foundCart };
+    const { subtotal, totalWithTaxes } = await this.getTotalPriceToPayFromMyCart(foundCart);
+
+    return {
+      msg: "Carrito obtenido exitosamente.",
+      cart: foundCart,
+      subtotal,
+      totalWithTaxes
+    };
   }
 
   async updateStatusCart(userId) {
@@ -92,6 +96,27 @@ class cartService {
     //luego de actualizarse aqui, se registrara en pedido
     //luego se eliminara el carrito
     return { msg: "Carrito actualizado exitosamente." };
+  }
+
+
+  async getTotalPriceToPayFromMyCart(cart) {
+    let subtotal = 0;
+
+    cart.products.forEach(product => {
+      //datavalues -> es entrar al objeto creado por sequelize
+      const unitPrice = parseFloat(product.dataValues.precio);
+      const quantity = parseInt(product.dataValues.cart_item.dataValues.cantidadDeProductos);
+
+      subtotal += unitPrice * quantity;
+    });
+
+    const taxRate = 0.18; // 18% ITBIS
+    const totalWithTaxes = subtotal + (subtotal * taxRate);
+
+    return {
+      subtotal,
+      totalWithTaxes
+    };
   }
 }
 
