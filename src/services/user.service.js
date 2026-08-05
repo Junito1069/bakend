@@ -20,7 +20,7 @@ class UserService {
       throw new AppError(`No se encontro ningun usuario con el id ${userId}`, 404);
     }
 
-    return user;
+    return foundUser;
   }
 
   async disableUser(userId) {

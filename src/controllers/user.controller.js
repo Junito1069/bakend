@@ -15,7 +15,7 @@ export const getUserById = async (req, res) => {
   const { userId } = req.params;
   try {
     const response = await userService.getUserById(userId);
-    return res.status(response.statusCode).json(response);
+    return res.status(200).json(response);
   } catch (error) {
     const statusCode = error.statusCode || 500;
     const message = error.message || "Error interno del servidor al obtener el usuario";

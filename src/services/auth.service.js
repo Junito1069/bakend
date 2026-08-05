@@ -46,7 +46,7 @@ class AuthService {
       throw new AppError("Este correo ya esta registrado.", 409);
 
     if (password !== confirmPassword)
-      throw new AppError("Las contraseñas no coinciden.", 409);
+      throw new AppError("Las contraseñas no coinciden.", 400);
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
