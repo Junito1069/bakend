@@ -55,8 +55,10 @@ class cartService {
         {
           model: product,
           attributes: [
+            [sequelize.col("id"), 'productId'],
             [sequelize.col("name"), 'nombre'],
-            [sequelize.col("price"), 'precio']
+            [sequelize.col("price"), 'precio'],
+            [sequelize.col("image"), "imagen"]
           ],
           through: {
             attributes: [
