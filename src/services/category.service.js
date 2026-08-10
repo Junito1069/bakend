@@ -44,6 +44,12 @@ class CategoryService {
     if (!existingCategory)
       throw new AppError('Categoria no encontrada', 404);
 
+    if (name == existingCategory.name)
+      throw new AppError('Existe una categoria con este nombre.', 409);
+
+    if (img == existingCategory.img)
+      throw new AppError('Esta imagen ya se encuentra asignada a esta categoria.', 409);
+
     existingCategory.name = name;
     existingCategory.img = img;
     await existingCategory.save();
