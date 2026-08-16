@@ -5,7 +5,8 @@ import {
   getOrdersByUser,
   createOrder,
   deleteOrder,
-  updateOrderStatus
+  updateStatusOrder,
+  getOrderByIdAdmin
 } from '../controllers/order.controller.js';
 
 import { authenticateToken } from '../middlewares/authenticate.token.js';
@@ -14,12 +15,13 @@ import { authorizeRole } from '../middlewares/authorize.role.js';
 const router = express.Router();
 
 //user
-router.post("/", authenticateToken, createOrder);
-router.get("/:id", authenticateToken, getOrderById);
-router.get("/user/:userId", authenticateToken, getOrdersByUser);
-//admin
+router.post("/create/:userId", authenticateToken, authorizeRole(["user"]), createOrder);
+router.get("/:id/user/:userId", authenticateToken, authorizeRole(["user"]), getOrderById);
+router.get("/user/:userId", authenticateToken, authorizeRole(["user"]), getOrdersByUser);
+// //admin
 router.get("/", authenticateToken, authorizeRole(["admin"]), getAllOrders);
-router.put("/:id/status", authenticateToken, authorizeRole(["admin"]), updateOrderStatus);
-router.delete("/:id", authenticateToken, authorizeRole(["admin"]), deleteOrder);
+router.patch("/:id/status", authenticateToken, authorizeRole(["admin"]), updateStatusOrder);
+router.get("/:id", authenticateToken, authorizeRole(["admin"]), getOrderByIdAdmin);
+// router.delete("/:id", authenticateToken, authorizeRole(["admin"]), deleteOrder);
 
 export default router;

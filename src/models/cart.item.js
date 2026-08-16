@@ -26,16 +26,22 @@ export const cartItem = sequelize.define("cart_item", {
   tableName: "cart_items",
 })
 
-// Un Carrito tiene muchos Productos a través de cart_items
+
 cart.belongsToMany(product, {
   through: cartItem,
-  foreignKey: 'cart_id', // El id del carrito en la tabla intermedia
-  otherKey: 'product_id' // El id del producto en la tabla intermedia
+  foreignKey: "cart_id",
+  otherKey: "product_id"
 });
 
-// Un Producto pertenece a muchos Carritos a través de cart_items
 product.belongsToMany(cart, {
   through: cartItem,
-  foreignKey: 'product_id',
-  otherKey: 'cart_id'
+  foreignKey: "product_id",
+  otherKey: "cart_id"
 });
+
+// Relaciones directas con la tabla intermedia
+cart.hasMany(cartItem, { foreignKey: "cart_id" });
+cartItem.belongsTo(cart, { foreignKey: "cart_id" });
+
+product.hasMany(cartItem, { foreignKey: "product_id" });
+cartItem.belongsTo(product, { foreignKey: "product_id" });

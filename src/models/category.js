@@ -15,10 +15,12 @@ export const category = sequelize.define("categories", {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  isActive: {
+  is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true
   }
 }, {
-  tableName: "categories"
+  tableName: "categories",
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
