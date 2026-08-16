@@ -4,7 +4,20 @@ import { AppError } from "../middlewares/app.error.js";
 
 class ProductService {
   async getAllProducts() {
-    const products = await product.findAll();
+    const products = await product.findAll({
+      where: {
+        is_active: true,
+      },
+      include: [
+        {
+          model: category,
+          where: {
+            is_active: true,
+          },
+        },
+      ],
+    });
+
     return products;
   }
 
@@ -12,11 +25,27 @@ class ProductService {
     const foundProduct = await product.findOne({
       where: {
         id: productId
-      }
+      },
+      include: [
+        {
+          model: category,
+          where: {
+            is_active: true,
+          },
+        },
+      ],
     })
 
     if (!foundProduct)
       throw new AppError('El producto no ha sido encontrado.', 404);
+
+    if (foundProduct.is_active === false)
+      throw new AppError('Este producto esta deshabilitado', 400);
+
+    const foundCategory = await category.findByPk(foundProduct.category_id);
+
+    if (foundCategory.is_active === false)
+      throw new AppError('Este producto pertenece a una categoria deshabilitada.', 400);
 
     return foundProduct;
   }
@@ -25,11 +54,16 @@ class ProductService {
     const featuredProducts = await product.findAll({
       where: {
         featured: true
-      }
+      },
+      include: [
+        {
+          model: category,
+          where: {
+            is_active: true,
+          },
+        },
+      ],
     });
-
-    if (!featuredProducts)
-      throw new AppError('Los productos destacados no se han encontrado.', 404);
 
     return featuredProducts;
   }
@@ -45,6 +79,9 @@ class ProductService {
       throw new AppError('El producto ya existe.', 409);
 
     const foundCategory = await category.findByPk(categoryId);
+
+    if (foundCategory.is_active === false)
+      throw new AppError('El producto pertenece a una categoria deshabilitada.', 400);
 
     if (!foundCategory)
       throw new AppError('La categoría no ha sido encontrada.', 404);
@@ -84,8 +121,12 @@ class ProductService {
 
     const foundCategory = await category.findByPk(categoryId);
 
+
     if (!foundCategory)
       throw new AppError('La categoría no ha sido encontrada.', 404);
+
+    if (foundCategory.is_active === false)
+      throw new AppError('El producto pertenece a una categoria deshabilitada.', 400);
 
     if (stock <= 0) throw new AppError('El stock debe ser mayor o igual a 0.', 400);
 

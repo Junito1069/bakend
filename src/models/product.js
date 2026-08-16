@@ -57,6 +57,8 @@ export const product = sequelize.define("product", {
   }
 }, {
   tableName: 'products',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 })
 
 category.hasMany(product, { foreignKey: 'category_id' });

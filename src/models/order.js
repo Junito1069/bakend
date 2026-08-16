@@ -1,39 +1,44 @@
-import { sequelize } from "../config/dbConfig.js";
 import { DataTypes } from "sequelize";
-import { user } from "./user.js";
-import { cart } from "./cart.js";
+import { sequelize } from "../config/dbConfig.js";
+import { orderItem } from "./order.item.js";
+import { product } from "./product.js";
 
 export const order = sequelize.define("order", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  cart_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: false
   },
   subtotal: {
     type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
+    allowNull: false
+  },
+  tax: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
   },
   total: {
     type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
+    allowNull: false
   },
   status: {
-    type: DataTypes.ENUM("pending", "paid", "cancelled"),
-    defaultValue: "pending",
-  }
+    type: DataTypes.STRING,
+    defaultValue: "Pendiente"
+  },
+  delivery_method: {
+    type: DataTypes.STRING
+  },
+  payment_method: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 }, {
-  tableName: 'orders',
+  tableName: "orders",
   createdAt: 'created_at',
   updatedAt: 'updated_at'
-})
+});
 
-order.belongsTo(user, { foreignKey: "user_id" });
-order.belongsTo(cart, { foreignKey: "cart_id" });
+order.hasMany(orderItem, { foreignKey: "order_id" });
+orderItem.belongsTo(order, { foreignKey: "order_id" });
+
+product.hasMany(orderItem, { foreignKey: "product_id" });
+orderItem.belongsTo(product, { foreignKey: "product_id" });

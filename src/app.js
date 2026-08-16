@@ -18,9 +18,7 @@ import productRoutes from './routes/product.routes.js';
 import categoryRoutes from './routes/category.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import orderRoutes from './routes/order.routes.js';
-import shipmentRoutes from './routes/shipment.routes.js';
-
-
+import adminStatsRoute from "./routes/admin.routes.js";
 
 //import models
 import { user } from './models/user.js'
@@ -29,10 +27,6 @@ import { category } from './models/category.js';
 import { cart } from './models/cart.js';
 import { cartItem } from './models/cart.item.js';
 import { order } from './models/order.js';
-import { sale } from './models/sale.js';
-import { shipment } from './models/shipment.js';
-import './models/associations.js';
-
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -40,8 +34,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/shipments', shipmentRoutes);
-
+app.use('/api/admin', adminStatsRoute);
 
 async function main() {
   try {
