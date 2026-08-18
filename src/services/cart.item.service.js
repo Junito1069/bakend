@@ -98,6 +98,45 @@ class CartItemService {
 
     return { msg: "Producto eliminado del carrito exitosamente." };
   }
+
+  async deleteAllItemsFromCart(userId) {
+    const foundCart = await cart.findOne({
+      where: {
+        user_id: userId
+      }
+    });
+
+    if (!foundCart)
+      throw new AppError("El carrito no existe.", 404);
+
+    const cartItems = await cartItem.findAll({
+      where: {
+        cart_id: foundCart.id
+      }
+    });
+
+    if (!cartItems)
+      throw new AppError("El carrito esta vacio.", 404);
+
+    //actualizamos el stock del producto
+    for (const item of cartItems) {
+      const foundProduct = await product.findByPk(item.product_id);
+      if (!foundProduct)
+        throw new AppError("El producto no existe.", 404);
+
+      foundProduct.current_stock += item.quantity;
+      await foundProduct.save();
+    }
+
+    //eliminamos el producto del carrito
+    await cartItem.destroy({
+      where: {
+        cart_id: foundCart.id
+      }
+    });
+
+    return { msg: "Todos los productos han sido eliminados del carrito exitosamente." };
+  }
 }
 
 export default new CartItemService();

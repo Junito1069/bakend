@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config/dbConfig.js";
 import { orderItem } from "./order.item.js";
 import { product } from "./product.js";
+import { user } from "./user.js";
 
 export const order = sequelize.define("order", {
   user_id: {
@@ -36,6 +37,9 @@ export const order = sequelize.define("order", {
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
+
+order.belongsTo(user, { foreignKey: "user_id" });
+user.hasMany(order, { foreignKey: "user_id" });
 
 order.hasMany(orderItem, { foreignKey: "order_id" });
 orderItem.belongsTo(order, { foreignKey: "order_id" });

@@ -50,3 +50,15 @@ export const deleteProductFromCart = async (req, res) => {
     return res.status(statusCode).json({ msg: error.message });
   }
 }
+
+export const deleteAllProductFromCart = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const response = await cartItemService.deleteAllItemsFromCart(userId);
+    return res.status(200).json(response);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({ msg: error.message });
+  }
+}
