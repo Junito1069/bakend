@@ -4,6 +4,7 @@ import { AppError } from "../middlewares/app.error.js";
 import { order } from "../models/order.js";
 import { orderItem } from "../models/order.item.js";
 import { product } from "../models/product.js";
+import { user } from "../models/user.js";
 
 class orderService {
 
@@ -99,12 +100,14 @@ class orderService {
   }
 
   async getAllOrders() {
-    const orders = await order.findAll();
+    const orders = await order.findAll({
+      include: {
+        model: user,
+        attributes: ["name", "email"]
+      }
+    });
 
-    if (!orders)
-      throw new AppError("No se encontraron ordenes.", 404);
-
-    return { orders };
+    return { msg: 'Ordenes obtenidas exitosamente.', orders };
   }
 
   async getOrdersByUser(userId) {
@@ -123,7 +126,6 @@ class orderService {
         }
       ]
     })
-
     return { msg: "Orden obtenida exitosamente.", orders };
   }
 
@@ -161,9 +163,16 @@ class orderService {
               attributes: ["id", "name", "price", "image"]
             }
           ]
+        },
+        {
+          model: user,
+          attributes: ["name", "email"]
         }
       ]
     })
+
+    if (!foundOrder)
+      throw new AppError("Orden no encontrada.", 404);
 
     return { foundOrder };
   }
@@ -178,9 +187,6 @@ class orderService {
       throw new AppError("La orden ya tiene ese estado.", 400);
 
     switch (status) {
-      case "Pagado":
-        foundOrder.status = status;
-        break;
       case "Enviado":
         foundOrder.status = status;
         break;
