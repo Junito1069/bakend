@@ -6,7 +6,7 @@ class UserService {
 
     const users = await user.findAll({
       attributes: {
-        exclude: ['password_hash', 'is_active', 'role', 'created_at', 'updated_at']
+        exclude: ['password_hash', 'created_at', 'updated_at']
       }
     })
 
@@ -68,6 +68,10 @@ class UserService {
 
     if (!foundUser) {
       throw new AppError(`No se encontro ningun usuario con el id ${userId}`, 404);
+    }
+
+    if (foundUser.role === role) {
+      throw new AppError(`Este usuario ya tiene este rol.`, 400);
     }
 
     foundUser.role = role;

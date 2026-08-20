@@ -23,6 +23,11 @@ export const user = sequelize.define("user", {
     type: DataTypes.ENUM('admin', 'user'),
     allowNull: false,
     defaultValue: 'user'
+  },
+  is_active: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   }
 }, {
   tableName: 'users'

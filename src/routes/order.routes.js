@@ -6,7 +6,7 @@ import {
   createOrder,
   deleteOrder,
   updateStatusOrder,
-  getOrderByIdAdmin
+  getOrderByIdAdmin,
 } from '../controllers/order.controller.js';
 
 import { authenticateToken } from '../middlewares/authenticate.token.js';
@@ -23,5 +23,6 @@ router.get("/", authenticateToken, authorizeRole(["admin"]), getAllOrders);
 router.patch("/:id/status", authenticateToken, authorizeRole(["admin"]), updateStatusOrder);
 router.get("/:id", authenticateToken, authorizeRole(["admin"]), getOrderByIdAdmin);
 // router.delete("/:id", authenticateToken, authorizeRole(["admin"]), deleteOrder);
+
 
 export default router;
