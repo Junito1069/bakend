@@ -2,7 +2,7 @@ import { AppError } from '../middlewares/app.error.js'
 import { user } from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-// process.loadEnvFile();
+process.loadEnvFile();
 
 class AuthService {
   async login({ email, password }) {
@@ -24,7 +24,7 @@ class AuthService {
       id: foundUser.id,
       role: foundUser.role
     }, process.env.JWT_SECRET_KEY, {
-      expiresIn: '3h'
+      expiresIn: '6h'
     });
 
     return { token };
@@ -32,6 +32,7 @@ class AuthService {
 
   async register({ name, email, password, confirmPassword }) {
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const nameRegex = /\d/;
 
     const foundUser = await user.findOne({
       where: {
@@ -47,6 +48,12 @@ class AuthService {
 
     if (password !== confirmPassword)
       throw new AppError("Las contraseñas no coinciden.", 400);
+
+    if (nameRegex.test(name))
+      throw new AppError("El nombre no puede contener numeros.", 400);
+
+    if (password.length < 6)
+      throw new AppError("La contraseña debe tener al menos 6 caracteres.", 400);
 
     const hashedPassword = await bcrypt.hash(password, 12);
 

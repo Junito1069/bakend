@@ -3,7 +3,7 @@ import cors from 'cors';
 import { sequelize } from './config/dbConfig.js';
 
 
-// process.loadEnvFile();
+process.loadEnvFile();
 
 const PORT = process.env.PORT;
 const app = express();

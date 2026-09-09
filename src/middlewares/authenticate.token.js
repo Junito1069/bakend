@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-// process.loadEnvFile();
+process.loadEnvFile();
 
 export function authenticateToken(req, res, next) {
   // El estándar es enviar el token en la cabecera: "Authorization: Bearer <token>"

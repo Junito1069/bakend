@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-// process.loadEnvFile();
+process.loadEnvFile();
 
 export function authorizeRole(allowedRoles) {
   return (req, res, next) => {
