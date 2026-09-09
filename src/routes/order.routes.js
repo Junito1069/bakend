@@ -20,7 +20,7 @@ router.get("/:id/user/:userId", authenticateToken, authorizeRole(["user"]), getO
 router.get("/user/:userId", authenticateToken, authorizeRole(["user"]), getOrdersByUser);
 // //admin
 router.get("/", authenticateToken, authorizeRole(["admin"]), getAllOrders);
-router.patch("/:id/status", authenticateToken, authorizeRole(["admin"]), updateStatusOrder);
+router.patch("/:id/status", authenticateToken, authorizeRole(["admin", "user"]), updateStatusOrder);
 router.get("/:id", authenticateToken, authorizeRole(["admin"]), getOrderByIdAdmin);
 // router.delete("/:id", authenticateToken, authorizeRole(["admin"]), deleteOrder);
 
