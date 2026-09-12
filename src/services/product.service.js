@@ -21,6 +21,16 @@ class ProductService {
     return products;
   }
 
+  async getAllProductsInventory() {
+    const products = await product.findAll({
+      where: {
+        is_active: false
+      }
+    });
+
+    return products;
+  }
+
   async getProductById(productId) {
     const foundProduct = await product.findOne({
       where: {

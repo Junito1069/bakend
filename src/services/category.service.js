@@ -12,6 +12,15 @@ class CategoryService {
     return response;
   }
 
+  async getAllCategoriesInventory() {
+    const response = await category.findAll({
+      where: {
+        is_active: false
+      }
+    });
+    return response;
+  }
+
   async getCategoryById(categoryId) {
     const foundCategory = await category.findByPk(categoryId, {
       where: {
