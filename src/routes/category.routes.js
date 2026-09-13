@@ -10,8 +10,8 @@ import { authenticateToken } from '../middlewares/authenticate.token.js';
 import { authorizeRole } from "../middlewares/authorize.role.js";
 
 router.get("/get-all", getAllCategories);
-router.get("/:categoryId", getCategoryById);
 router.get("/get/disabled", authenticateToken, authorizeRole("admin"), getAllCategoriesInventory);
+router.get("/:categoryId", getCategoryById);
 router.get("/products/:categoryId", getAllProductsByCategoryId);
 router.get("/products/count/:categoryId", getCountProductsByCategoryId);
 router.post("/create", authenticateToken, authorizeRole("admin"), addCategory);
