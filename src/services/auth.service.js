@@ -2,7 +2,7 @@ import { AppError } from '../middlewares/app.error.js'
 import { user } from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-process.loadEnvFile();
+// process.loadEnvFile();
 
 class AuthService {
   async login({ email, password }) {

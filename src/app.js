@@ -3,7 +3,7 @@ import cors from 'cors';
 import { sequelize } from './config/dbConfig.js';
 
 
-process.loadEnvFile();
+// process.loadEnvFile();
 
 const PORT = process.env.PORT;
 const app = express();
@@ -39,7 +39,6 @@ app.use('/api/admin', adminStatsRoute);
 async function main() {
   try {
     await sequelize.sync({ force: false });
-
   } catch (error) {
     console.error("Error al conectar a la base de datos:", error);
   }

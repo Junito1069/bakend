@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-process.loadEnvFile();
+// process.loadEnvFile();
 
 // para produccion
 // export const sequelize = new Sequelize(process.env.DB_URL, {
