@@ -4,17 +4,34 @@ import { AppError } from "../middlewares/app.error.js";
 
 class CategoryService {
   async getAllCategories() {
-    const response = await category.findAll();
+    const response = await category.findAll({
+      where: {
+        is_active: true
+      }
+    });
+    return response;
+  }
+
+  async getAllCategoriesInventory() {
+    const response = await category.findAll({
+      where: {
+        is_active: false
+      }
+    });
     return response;
   }
 
   async getCategoryById(categoryId) {
-    const categori = await category.findByPk(categoryId);
+    const foundCategory = await category.findByPk(categoryId, {
+      where: {
+        is_active: true
+      }
+    });
 
-    if (!categori)
+    if (!foundCategory)
       throw new AppError('Categoria no encontrada', 404);
 
-    return categori;
+    return foundCategory;
   }
 
   async addCategory({ name, img }) {

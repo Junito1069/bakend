@@ -39,7 +39,6 @@ app.use('/api/admin', adminStatsRoute);
 async function main() {
   try {
     await sequelize.sync({ force: false });
-
   } catch (error) {
     console.error("Error al conectar a la base de datos:", error);
   }

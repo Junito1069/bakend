@@ -10,6 +10,16 @@ export const getAllProducts = async (req, res) => {
   }
 }
 
+export const getAllProductsInventory = async (req, res) => {
+  try {
+    const products = await _productService.getAllProductsInventory();
+    return res.status(200).json(products);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).json({ msg: error.message });
+  }
+}
+
 export const getFeaturedProducts = async (req, res) => {
   try {
     const allFeaturedProducts = await _productService.getFeaturedProducts();
