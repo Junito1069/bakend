@@ -10,9 +10,9 @@ import { authorizeRole } from "../middlewares/authorize.role.js";
 
 
 router.get('/get-all', getAllProducts);
-router.get('/get/:id', getProductById);
 router.get('/get-featured', getFeaturedProducts);
 router.get('/get/disabled', authenticateToken, authorizeRole("admin"), getAllProductsInventory);
+router.get('/get/:id', getProductById);
 router.post('/create', authenticateToken, authorizeRole("admin"), createProduct);
 router.put('/update/:id', authenticateToken, authorizeRole("admin"), updateProduct);
 router.patch('/disable/:id', authenticateToken, authorizeRole("admin"), disableProduct);
